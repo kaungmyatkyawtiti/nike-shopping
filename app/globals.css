@@ -4,6 +4,20 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --animate-wiggle: wiggle 1s ease-in-out infinite;
+
+  @keyframes wiggle {
+
+    0%,
+    100% {
+      transform: rotate(-6deg);
+    }
+
+    50% {
+      transform: rotate(6deg);
+    }
+  }
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -80,7 +94,7 @@
 }
 
 .dark {
-  --background: oklch(0.147 0.004 49.25);
+  --background: oklch(0.1456 0.0028 68.6);
   --foreground: oklch(0.985 0.001 106.423);
   --card: oklch(0.216 0.006 56.043);
   --card-foreground: oklch(0.985 0.001 106.423);
