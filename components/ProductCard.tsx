@@ -45,8 +45,8 @@ export default function ProductCard({
           src={imageSrc}
           alt={imageAlt}
           fill
-          loading="eager"
-          sizes="auto"
+          preload={true}
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
           className="object-cover md:group-hover:scale-105"
         />
       </div>

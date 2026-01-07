@@ -8,25 +8,25 @@ export default function Home() {
   return (
     <div className="mx-auto max-w-5xl px-5 py-10">
       {/* mobile horizontal scroll */}
-      <ScrollArea className="md:hidden relative">
-        <div className="flex w-full gap-4 pb-5">
-          {products.map((product) => (
-            <figure key={product.id} className="shrink-0">
-              <ProductCard
-                title={product.title}
-                imageSrc={product.imageSrc}
-                description={product.description}
-                price={product.pirce}
-              />
-            </figure>
-          ))}
-        </div>
-        <ScrollBar orientation="horizontal" />
-        <ScrollHint />
-      </ScrollArea>
+      {/* <ScrollArea className="md:hidden relative"> */}
+      {/*   <div className="flex w-full gap-4 pb-5"> */}
+      {/*     {products.map((product) => ( */}
+      {/*       <figure key={product.id} className="shrink-0"> */}
+      {/*         <ProductCard */}
+      {/*           title={product.title} */}
+      {/*           imageSrc={product.imageSrc} */}
+      {/*           description={product.description} */}
+      {/*           price={product.pirce} */}
+      {/*         /> */}
+      {/*       </figure> */}
+      {/*     ))} */}
+      {/*   </div> */}
+      {/*   <ScrollBar orientation="horizontal" /> */}
+      {/*   <ScrollHint /> */}
+      {/* </ScrollArea> */}
 
       {/* in md grid */}
-      <div className="hidden md:grid grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard
             key={product.id}
