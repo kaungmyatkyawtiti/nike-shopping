@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CopyRight from "./CopyRight";
 
 const columns = [
   {
@@ -16,29 +17,52 @@ const columns = [
   },
   {
     title: "Kids'",
-    links: ["Infant & Toddler Shoes", "Kids' Shoes", "Kids' Jordan Shoes", "Kids' Basketball Shoes"],
+    links: [
+      "Infant & Toddler Shoes",
+      "Kids' Shoes",
+      "Kids' Jordan Shoes",
+      "Kids' Basketball Shoes",
+    ],
   },
 ] as const;
 
+const socialLinks = [
+  { src: "/x.svg", alt: "X" },
+  { src: "/facebook.svg", alt: "Facebook" },
+  { src: "/instagram.svg", alt: "Instagram" },
+]
+
 export default function Footer() {
   return (
-    <footer className="bg-dark-900 text-light-100">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12">
-          <div className="flex items-start md:col-span-3">
-            <Image src="/logo.svg" alt="Nike" width={48} height={48} />
+    <footer className="border-t border-border bg-card">
+      <div className="mx-auto max-w-7xl px-6 py-14">
+        <div className="grid gap-12 xl:grid-cols-12">
+          <div className="xl:col-span-3">
+            <Link href="/" className="flex items-center gap-2">
+              <Image src="/logo.svg" alt="Logo" width={40} height={40} />
+              <span className="text-xl font-semibold tracking-tight">
+                Nike
+              </span>
+            </Link>
+
+            <p className="mt-4 max-w-xs text-[16px] text-muted-foreground">
+              Bringing you the best shoes and apparel for everyday performance.
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 md:col-span-7">
+          <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-4 xl:col-span-7">
             {columns.map((col) => (
               <div key={col.title}>
-                <h4 className="mb-4 text-heading-3">{col.title}</h4>
+                <h4 className="mb-4 font-semibold uppercase tracking-wide text-foreground">
+                  {col.title}
+                </h4>
+
                 <ul className="space-y-3">
                   {col.links.map((l) => (
                     <li key={l}>
                       <Link
                         href="#"
-                        className="text-body text-light-400 hover:text-light-300"
+                        className="text-[16px] text-muted-foreground hover:text-foreground hover:underline"
                       >
                         {l}
                       </Link>
@@ -49,41 +73,28 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="flex gap-4 md:col-span-2 md:justify-end">
-            {[
-              { src: "/x.svg", alt: "X" },
-              { src: "/facebook.svg", alt: "Facebook" },
-              { src: "/instagram.svg", alt: "Instagram" },
-            ].map((s) => (
+          <div className="flex items-start gap-3 xl:col-span-2 xl:justify-end">
+            {socialLinks.map((s) => (
               <Link
                 key={s.alt}
                 href="#"
                 aria-label={s.alt}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-light-100"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-muted dark:bg-white/80 hover:bg-input hover:dark:bg-white"
               >
-                <Image src={s.src} alt={s.alt} width={18} height={18} />
+                <Image
+                  src={s.src}
+                  alt={s.alt}
+                  width={16}
+                  height={16}
+                  className="opacity-80"
+                />
               </Link>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-4 text-light-400 sm:flex-row sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 text-caption">
-            <Image src="/globe.svg" alt="" width={16} height={16} />
-            <span>Croatia</span>
-            <span>© 2025 Nike, Inc. All Rights Reserved</span>
-          </div>
-          <ul className="flex items-center gap-6 text-caption">
-            {["Guides", "Terms of Sale", "Terms of Use", "Nike Privacy Policy"].map((t) => (
-              <li key={t}>
-                <Link href="#">{t}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <CopyRight />
     </footer>
   );
 }
