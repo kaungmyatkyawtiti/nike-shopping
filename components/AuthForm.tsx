@@ -46,10 +46,8 @@ export default function AuthForm({ mode }: Props) {
         className="space-y-4"
       >
         {mode === "sign-up" && (
-          <div className="flex flex-col gap-1">
-            <label htmlFor="name" className="font-semibold">
-              Name
-            </label>
+          <fieldset className="flex flex-col gap-1">
+            <label htmlFor="name" className="font-semibold">Name</label>
             <input
               id="name"
               name="name"
@@ -58,10 +56,23 @@ export default function AuthForm({ mode }: Props) {
               className="w-full rounded-xl border border-light-300 bg-light-100 px-4 py-3 text-body text-dark-900 placeholder:text-dark-500 focus:outline-none focus:ring-2 focus:ring-dark-900/10"
               autoComplete="name"
             />
-          </div>
+          </fieldset>
         )}
 
-        <div className="flex flex-col gap-1">
+        {/* <div className="flex flex-col gap-1"> */}
+        {/*   <label htmlFor="name" className="font-semibold"> */}
+        {/*     Name */}
+        {/*   </label> */}
+        {/*   <input */}
+        {/*     id="name" */}
+        {/*     name="name" */}
+        {/*     type="text" */}
+        {/*     placeholder="Enter your name" */}
+        {/*     className="w-full rounded-xl border border-light-300 bg-light-100 px-4 py-3 text-body text-dark-900 placeholder:text-dark-500 focus:outline-none focus:ring-2 focus:ring-dark-900/10" */}
+        {/*     autoComplete="name" */}
+        {/*   /> */}
+        {/* </div> */}
+        <fieldset className="flex flex-col gap-1">
           <label htmlFor="email" className="font-semibold">
             Email
           </label>
@@ -74,10 +85,13 @@ export default function AuthForm({ mode }: Props) {
             autoComplete="email"
             required
           />
-        </div>
+        </fieldset>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="font-semibold">
+        <fieldset className="flex flex-col gap-1">
+          <label
+            htmlFor="password"
+            className="font-semibold"
+          >
             Password
           </label>
           <div className="relative">
@@ -93,14 +107,14 @@ export default function AuthForm({ mode }: Props) {
             />
             <button
               type="button"
-              className="absolute inset-y-0 right-0 px-3 text-caption text-dark-700"
+              className="absolute inset-y-0 right-0 px-3 text-sm text-dark-700"
               onClick={() => setShow((v) => !v)}
               aria-label={show ? "Hide password" : "Show password"}
             >
               {show ? "Hide" : "Show"}
             </button>
           </div>
-        </div>
+        </fieldset>
 
         <button
           type="submit"
