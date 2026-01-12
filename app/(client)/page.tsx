@@ -3,8 +3,12 @@ import { products } from "@/constants";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { ArrowLeft, ArrowRight, ChevronRight } from "lucide-react";
 import ScrollHint from "@/components/ScrollHint";
+import { getCurrentUser } from "@/lib/actions/auth-action";
 
-export default function Home() {
+export default async function Home() {
+  const user = await getCurrentUser();
+  console.log("user", user);
+
   return (
     <div className="mx-auto max-w-5xl px-5 py-10">
       {/* mobile horizontal scroll */}

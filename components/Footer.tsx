@@ -38,8 +38,17 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 py-14">
         <div className="grid gap-12 xl:grid-cols-12">
           <div className="xl:col-span-3">
-            <Link href="/" className="flex items-center gap-2">
-              <Image src="/logo.svg" alt="Logo" width={40} height={40} />
+            <Link
+              href="/"
+              className="flex items-center gap-2 max-w-15 max-h-15"
+            >
+              <Image
+                src="/logo.svg"
+                alt="Logo"
+                width={40}
+                height={40}
+                className="w-auto h-auto"
+              />
               <span className="text-xl font-semibold tracking-tight">
                 Nike
               </span>

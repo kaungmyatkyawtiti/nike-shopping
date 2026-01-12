@@ -1,24 +1,74 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "@tanstack/react-form";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import SocialProviders from "./SocialProviders";
+import { useRouter } from "next/navigation";
+import { Field, FieldGroup, FieldLabel } from "./ui/field";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { signUp } from "@/lib/actions/auth-action";
+import { signInSchema, signUpSchema } from "@/lib/zodSchemas";
 
 interface Props {
   mode: "sign-in" | "sign-up";
+  onSubmit: (formData: FormData) => Promise<{ ok: boolean; userId?: string } | void>
 };
 
-export default function AuthForm({ mode }: Props) {
+export default function AuthForm({
+  mode,
+  onSubmit,
+}: Props) {
   const [show, setShow] = useState(false);
   const router = useRouter();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const result = await onSubmit(formData)
+
+      if (result?.ok) router.push("/");
+    } catch (error) {
+      console.log("form submit error", error);
+    }
+  }
+
+  const defaultValues =
+    mode === "sign-in"
+      ? {
+        email: "",
+        password: "",
+      }
+      : {
+        name: "",
+        email: "",
+        password: "",
+      };
+
+  const form = useForm({
+    defaultValues,
+    validators: {
+      onSubmit: mode === "sign-in" ? signInSchema : signUpSchema,
+    },
+    onSubmit: async ({ value }) => {
+      console.log("value", value);
+      form.reset()
+    },
+  })
 
   return (
     <div className="space-y-6">
       <div className="text-center space-y-3">
         <p className="text-[15px] text-foreground/85">
           {mode === "sign-in" ? "Don’t have an account? " : "Already have an account? "}
-          <Link href={mode === "sign-in" ? "/sign-up" : "/sign-in"} className="underline">
+          <Link
+            href={mode === "sign-in" ? "/sign-up" : "/sign-in"}
+            className="text-blue-500 underline"
+          >
             {mode === "sign-in" ? "Sign Up" : "Sign In"}
           </Link>
         </p>
@@ -26,9 +76,11 @@ export default function AuthForm({ mode }: Props) {
           {mode === "sign-in" ? "Welcome Back!" : "Join Nike Today!"}
         </h1>
         <p className="mt-1 text-foreground/85 text-[15px]">
-          {mode === "sign-in"
-            ? "Sign in to continue your journey"
-            : "Create your account to start your fitness journey"}
+          {
+            mode === "sign-in"
+              ? "Sign in to continue your journey"
+              : "Create your account to start your fitness journey"
+          }
         </p>
       </div>
 
@@ -44,84 +96,54 @@ export default function AuthForm({ mode }: Props) {
 
       <form
         className="space-y-4"
+        onSubmit={handleSubmit}
       >
-        {mode === "sign-up" && (
-          <fieldset className="flex flex-col gap-1">
-            <label htmlFor="name" className="font-semibold">Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Enter your name"
-              className="w-full rounded-xl border border-light-300 bg-light-100 px-4 py-3 text-body text-dark-900 placeholder:text-dark-500 focus:outline-none focus:ring-2 focus:ring-dark-900/10"
-              autoComplete="name"
+        <FieldGroup>
+
+          {mode === "sign-up" && (
+            <Field>
+              <FieldLabel htmlFor="name" className="text-[16px]">Name</FieldLabel>
+              <Input
+                id="name"
+                name="name"
+                placeholder="Enter your name"
+                autoComplete="off"
+                className="h-10"
+              />
+            </Field>
+          )}
+
+          <Field>
+            <FieldLabel htmlFor="email" className="text-[16px]">Email</FieldLabel>
+            <Input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              autoComplete="off"
+              className="h-10"
             />
-          </fieldset>
-        )}
+          </Field>
 
-        {/* <div className="flex flex-col gap-1"> */}
-        {/*   <label htmlFor="name" className="font-semibold"> */}
-        {/*     Name */}
-        {/*   </label> */}
-        {/*   <input */}
-        {/*     id="name" */}
-        {/*     name="name" */}
-        {/*     type="text" */}
-        {/*     placeholder="Enter your name" */}
-        {/*     className="w-full rounded-xl border border-light-300 bg-light-100 px-4 py-3 text-body text-dark-900 placeholder:text-dark-500 focus:outline-none focus:ring-2 focus:ring-dark-900/10" */}
-        {/*     autoComplete="name" */}
-        {/*   /> */}
-        {/* </div> */}
-        <fieldset className="flex flex-col gap-1">
-          <label htmlFor="email" className="font-semibold">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="johndoe@gmail.com"
-            className="w-full rounded-xl border border-light-300 bg-light-100 px-4 py-3 text-body text-dark-900 placeholder:text-dark-500 focus:outline-none focus:ring-2 focus:ring-dark-900/10"
-            autoComplete="email"
-            required
-          />
-        </fieldset>
-
-        <fieldset className="flex flex-col gap-1">
-          <label
-            htmlFor="password"
-            className="font-semibold"
-          >
-            Password
-          </label>
-          <div className="relative">
-            <input
+          <Field>
+            <FieldLabel htmlFor="password" className="text-[16px]">Password</FieldLabel>
+            <Input
+              type="password"
               id="password"
+              placeholder="Enter your password"
+              autoComplete="off"
               name="password"
-              type={show ? "text" : "password"}
-              placeholder="minimum 8 characters"
-              className="w-full rounded-xl border border-light-300 bg-light-100 px-4 py-3 pr-12 text-body text-dark-900 placeholder:text-dark-500 focus:outline-none focus:ring-2 focus:ring-dark-900/10"
-              autoComplete={mode === "sign-in" ? "current-password" : "new-password"}
-              minLength={8}
-              required
+              className="h-10"
             />
-            <button
-              type="button"
-              className="absolute inset-y-0 right-0 px-3 text-sm text-dark-700"
-              onClick={() => setShow((v) => !v)}
-              aria-label={show ? "Hide password" : "Show password"}
-            >
-              {show ? "Hide" : "Show"}
-            </button>
-          </div>
-        </fieldset>
+          </Field>
+        </FieldGroup>
 
-        <button
+        <Button
           type="submit"
-          className="mt-2 w-full rounded-full bg-amber-500 px-6 py-3 text-body-medium text-light-100 hover:bg-dark-700 focus:outline-none focus:ring-2 focus:ring-dark-900/20"
+          className="mt-2 w-full rounded-md bg-orange-500 hover:bg-orange-500/90 focus:outline-none font-semibold h-10 text-[16px]"
         >
           {mode === "sign-in" ? "Sign In" : "Sign Up"}
-        </button>
+        </Button>
 
         {mode === "sign-up" && (
           <p className="text-center text-[15px] text-foreground/85">

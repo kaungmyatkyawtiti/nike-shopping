@@ -5,8 +5,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     <main className="min-h-dvh grid grid-cols-1 lg:grid-cols-2">
       <section className="hidden lg:flex flex-col justify-between bg-card p-10 border-r">
         <div className="flex items-center">
-          <div className="h-8 w-8 rounded-md bg-orange-500 inline-flex items-center justify-center">
-            <Image src="/logo.svg" alt="Nike" width={20} height={20} />
+          <div className="h-9 w-9 rounded-md bg-orange-500 inline-flex items-center justify-center p-1">
+            <Image
+              src="/logo.svg"
+              alt="Nike"
+              width={20}
+              height={20}
+              className="w-auto h-auto"
+            />
           </div>
         </div>
 
