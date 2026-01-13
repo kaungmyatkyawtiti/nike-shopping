@@ -3,20 +3,19 @@
 import { auth } from "../auth";
 import { headers } from "next/headers";
 import { signInSchema, signUpSchema } from "../zodSchemas";
+import z from "zod";
 
-export const signUp = async (formData: FormData) => {
-  const rawData = {
-    name: formData.get("name") as string,
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  }
-  const data = signUpSchema.parse(rawData);
+export type SignInValues = z.infer<typeof signInSchema>;
+export type SignUpValues = z.infer<typeof signUpSchema>;
+
+export const signUp = async (values: SignUpValues) => {
+  const data = signUpSchema.parse(values);
+
   const res = await auth.api.signUpEmail({
     body: {
       name: data.name,
       email: data.email,
       password: data.password,
-      callbackURL: "/dashboard"
     }
   })
 
@@ -26,12 +25,9 @@ export const signUp = async (formData: FormData) => {
   }
 }
 
-export const signIn = async (formData: FormData) => {
-  const rawData = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  }
-  const data = signInSchema.parse(rawData);
+export const signIn = async (values: SignInValues) => {
+  const data = signInSchema.parse(values);
+
   const res = await auth.api.signInEmail({
     body: {
       email: data.email,
@@ -50,7 +46,7 @@ export const getCurrentUser = async () => {
     const session = await auth.api.getSession({
       headers: await headers()
     })
-
+    console.log("session", session);
     return session?.user ?? null;
   } catch (error) {
     console.log("getCurrentUser error", error);
