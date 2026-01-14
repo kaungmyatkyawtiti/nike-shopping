@@ -1,12 +1,8 @@
 "use server";
 
+import { signInSchema, SignInValues, signUpSchema, SignUpValues } from "@/components/AuthForm";
 import { auth } from "../auth";
 import { headers } from "next/headers";
-import { signInSchema, signUpSchema } from "../zodSchemas";
-import z from "zod";
-
-export type SignInValues = z.infer<typeof signInSchema>;
-export type SignUpValues = z.infer<typeof signUpSchema>;
 
 export const signUp = async (values: SignUpValues) => {
   const data = signUpSchema.parse(values);
