@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { products } from "../product-shema";
 import z from "zod";
@@ -12,9 +11,9 @@ export const genders = pgTable(
   }
 )
 
-export const genderRelations = relations(genders, ({ many }) => ({
-  products: many(products),
-}))
+// export const genderRelations = relations(genders, ({ many }) => ({
+//   products: many(products),
+// }))
 
 export const insertGenderSchema = z.object({
   label: z

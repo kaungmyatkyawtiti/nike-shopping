@@ -1,5 +1,6 @@
 import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import z from "zod";
+import { productVariants } from "../variant-schema";
 
 export const sizes = pgTable(
   'sizes',
@@ -10,6 +11,10 @@ export const sizes = pgTable(
     sortOrder: integer('sort_order').notNull(),
   }
 );
+
+// export const sizeRelations = relations(sizes, ({ many }) => ({
+//   variants: many(productVariants),
+// }))
 
 export const insertSizeSchema = z.object({
   name: z

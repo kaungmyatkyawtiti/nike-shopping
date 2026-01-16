@@ -11,6 +11,10 @@ export const colors = pgTable(
   }
 );
 
+// export const colorRelations = relations(colors, ({ many }) => ({
+//   variants: many(productVariants),
+// }))
+
 export const insertColorSchema = z.object({
   name: z
     .string()
@@ -24,7 +28,7 @@ export const insertColorSchema = z.object({
 });
 
 export const selectColorSchema = insertColorSchema.extend({
-  id: z.string().uuid(),
+  id: z.uuid(),
 });
 
 export type InsertColor = z.infer<typeof insertColorSchema>;
