@@ -46,39 +46,31 @@ export const insertProductSchema = z.object({
   name: z
     .string()
     .min(1),
-
   description: z
     .string()
     .min(1),
-
   categoryId: z
     .uuid()
     .optional()
     .nullable(),
-
   genderId: z
     .uuid()
     .optional()
     .nullable(),
-
   brandId: z
     .uuid()
     .optional()
     .nullable(),
-
   isPublished: z
     .boolean()
     .optional(),
-
   defaultVariantId: z
     .uuid()
     .optional()
     .nullable(),
-
   createdAt: z
     .date()
     .optional(),
-
   updatedAt: z
     .date()
     .optional(),
