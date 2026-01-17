@@ -2,9 +2,6 @@ import { integer, jsonb, numeric, pgTable, real, text, timestamp, uuid } from "d
 import { products } from "./product-shema";
 import { colors } from "./filter/color-schema";
 import { sizes } from "./filter/size-schema";
-import { orderItems } from "./order-schema";
-import { productImages } from "./image-schema";
-import { cartItems } from "./cart-schema";
 import z from "zod";
 
 export const productVariants = pgTable(

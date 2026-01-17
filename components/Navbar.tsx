@@ -4,10 +4,10 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const links = [
+export const NAV_LINKS = [
   { label: "Men", href: "/products?gender=men" },
   { label: "Women", href: "/products?gender=women" },
-  { label: "Kids", href: "/products?gender=kids" },
+  { label: "Kids", href: "/products?gender=unisex" },
   { label: "Collections", href: "/collections" },
   { label: "Contact", href: "/contact" },
 ] as const;
@@ -18,7 +18,7 @@ export default function Navbar() {
   return (
     <nav className="hidden lg:inline-flex items-center gap-9 capitalize">
       {
-        links.map((link, ind) =>
+        NAV_LINKS.map((link, ind) =>
           <Link
             key={ind}
             href={link.href}

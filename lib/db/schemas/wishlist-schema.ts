@@ -14,9 +14,11 @@ export const wishlists = pgTable(
       .notNull()
       .references(() => products.id, { onDelete: 'cascade' }),
     addedAt: timestamp('added_at').defaultNow().notNull(),
-  }, (t) => ({
-    uniq: uniqueIndex('wishlists_user_product_uniq').on(t.userId, t.productId),
-  })
+  },
+  (table) => [
+    uniqueIndex("wishlists_user_product_uniq")
+      .on(table.userId, table.productId),
+  ]
 );
 
 // export const wishlistsRelations = relations(wishlists, ({ one }) => ({

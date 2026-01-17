@@ -1,6 +1,5 @@
 import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import z from "zod";
-import { productVariants } from "../variant-schema";
 
 export const sizes = pgTable(
   'sizes',

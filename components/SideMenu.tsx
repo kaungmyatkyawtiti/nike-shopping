@@ -5,18 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./ModeToggle";
+import { NAV_LINKS } from "./Navbar";
 
 interface SideMenuProps {
   isOpen: boolean;
   onClose: () => void;
 }
-const links = [
-  { label: "Men", href: "/products?gender=men" },
-  { label: "Women", href: "/products?gender=women" },
-  { label: "Kids", href: "/products?gender=kids" },
-  { label: "Collections", href: "/collections" },
-  { label: "Contact", href: "/contact" },
-] as const;
 
 export default function SideMenu({
   isOpen,
@@ -57,7 +51,7 @@ export default function SideMenu({
 
         <div className="flex flex-col space-y-2">
           {
-            links.map((link, ind) =>
+            NAV_LINKS.map((link, ind) =>
               <Link
                 key={ind}
                 href={link.href}

@@ -1,23 +1,30 @@
-import { pgTable, text, timestamp, uuid, integer } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid, integer, check } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
 import { z } from 'zod';
 import { products } from './product-shema';
 import { users } from './auth-schema';
 
-export const reviews = pgTable('reviews', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  productId: uuid('product_id')
-    .notNull()
-    .references(() => products.id, { onDelete: 'cascade' }),
-  userId: uuid('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  rating: integer('rating').notNull(),
-  comment: text('comment'),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-}, (t) => ({
-  ratingRange: sql`CHECK (${t.rating.name} BETWEEN 1 AND 5)`,
-}));
+export const reviews = pgTable(
+  'reviews',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    productId: uuid('product_id')
+      .notNull()
+      .references(() => products.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    rating: integer('rating').notNull(),
+    comment: text('comment'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => [
+    check(
+      "rating_range",
+      sql`${table.rating} BETWEEN 1 AND 5`
+    ),
+  ]
+);
 
 // export const reviewsRelations = relations(reviews, ({ one }) => ({
 //   product: one(products, {

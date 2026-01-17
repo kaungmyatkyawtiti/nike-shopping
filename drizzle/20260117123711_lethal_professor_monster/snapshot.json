@@ -1,7 +1,7 @@
 {
   "version": "8",
   "dialect": "postgres",
-  "id": "600b7ed6-7bad-4f07-bf90-54ffd4093808",
+  "id": "81982b4f-9794-495e-95b7-8c7f446bac4a",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
@@ -3012,6 +3012,13 @@
       "schema": "public",
       "table": "coupons",
       "entityType": "uniques"
+    },
+    {
+      "value": "\"rating\" BETWEEN 1 AND 5",
+      "name": "rating_range",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "reviews"
     }
   ],
   "renames": []

@@ -9,12 +9,12 @@ export const categories = pgTable(
     slug: text('slug').notNull().unique(),
     parentId: uuid('parent_id'),
   },
-  (t) => ({
-    parentFk: foreignKey({
-      columns: [t.parentId],
-      foreignColumns: [t.id],
-    }).onDelete('set null'),
-  })
+  (table) => [
+    foreignKey({
+      columns: [table.parentId],
+      foreignColumns: [table.id],
+    }).onDelete("set null"),
+  ]
 )
 
 // export const categoriesRelations = relations(categories, ({ many, one }) => ({

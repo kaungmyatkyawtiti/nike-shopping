@@ -200,7 +200,8 @@ CREATE TABLE "reviews" (
 	"user_id" uuid NOT NULL,
 	"rating" integer NOT NULL,
 	"comment" text,
-	"created_at" timestamp DEFAULT now() NOT NULL
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "rating_range" CHECK ("rating" BETWEEN 1 AND 5)
 );
 --> statement-breakpoint
 CREATE TABLE "coupons" (

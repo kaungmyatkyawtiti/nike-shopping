@@ -1,5 +1,4 @@
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
-import { products } from "../product-shema";
 import z from "zod";
 
 export const genders = pgTable(

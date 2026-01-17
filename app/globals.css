@@ -146,3 +146,7 @@
 @utility hover-effect {
   @apply transition-all duration-300 ease-in-out;
 }
+
+@utility description {
+  @apply text-sm text-foreground/80;
+}
