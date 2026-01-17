@@ -27,7 +27,7 @@ export default function SideMenu({
       onClick={onClose}
     >
       <div
-        className="min-w-72 max-w-96 bg-card h-screen text-foreground/85 p-5 border-r border-r-border/50 flex flex-col gap-5 overflow-y-auto"
+        className="max-w-72 bg-card h-screen text-foreground/85 p-5 border-r border-r-border/50 flex flex-col gap-5 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
@@ -42,13 +42,6 @@ export default function SideMenu({
           </Button>
         </div>
 
-        <div className="flex items-center justify-between">
-          <Logo />
-          <div className="lg:hidden">
-            <ModeToggle />
-          </div>
-        </div>
-
         <div className="flex flex-col space-y-2">
           {
             NAV_LINKS.map((link, ind) =>
@@ -56,7 +49,7 @@ export default function SideMenu({
                 key={ind}
                 href={link.href}
                 className={cn(
-                  "text-muted-foreground hover:text-shop-violet hover:bg-accent py-2 px-3 rounded-md font-semibold hover-effect",
+                  "text-muted-foreground hover:text-shop-violet hover:bg-accent py-2 px-3 rounded-md font-medium hover-effect",
                   pathname === link.href && "text-shop-violet bg-accent"
                 )}
               >

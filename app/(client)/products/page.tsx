@@ -1,6 +1,7 @@
 import Card from "@/components/Card";
 import Filters from "@/components/Filter";
 import Sort from "@/components/Sort";
+import { Badge } from "@/components/ui/badge";
 import { MOCK_PRODUCTS } from "@/constants";
 import { Product } from "@/types";
 
@@ -81,19 +82,18 @@ export default async function ProductsPage({
   return (
     <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <header className="flex items-center justify-between py-6">
-        <h1 className="text-heading-3 text-dark-900">New ({sorted.length})</h1>
+        <h2 className="text-lg">New ({sorted.length})</h2>
         <Sort />
       </header>
 
       {activeBadges.length > 0 && (
         <div className="mb-4 flex flex-wrap gap-2">
           {activeBadges.map((b, i) => (
-            <span
+            <Badge
               key={`${b}-${i}`}
-              className="rounded-full border border-light-300 px-3 py-1 text-caption text-dark-900"
             >
               {b}
-            </span>
+            </Badge>
           ))}
         </div>
       )}
@@ -106,7 +106,7 @@ export default async function ProductsPage({
               <p className="text-body text-dark-700">No products match your filters.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 pb-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 pb-6">
               {sorted.map((p) => (
                 <Card
                   key={p.id}

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { getArrayParam, removeParams, toggleArrayParam } from "../lib/query";
 
 const GENDERS = ["men", "women", "unisex"] as const;
@@ -57,7 +57,7 @@ export default function Filters() {
     k,
   }: {
     title: string;
-    children: import("react").ReactNode;
+    children: ReactNode;
     k: GroupKey;
   }) => (
     <div className="border-b border-light-300 py-4">
@@ -91,16 +91,16 @@ export default function Filters() {
         </button>
       </div>
 
-      <aside className="sticky top-20 hidden h-fit min-w-60 rounded-lg border border-light-300 bg-light-100 p-4 md:block">
+      <aside className="sticky top-20 hidden h-fit min-w-60 rounded-md border bg-card p-4 md:block mb-6">
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="text-body-medium text-dark-900">Filters</h3>
+          <h3 className="font-semibold">Filters</h3>
           <button className="text-caption text-dark-700 underline" onClick={clearAll}>
             Clear all
           </button>
         </div>
 
         <Group title={`Gender ${activeCounts.gender ? `(${activeCounts.gender})` : ""}`} k="gender">
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {GENDERS.map((g) => {
               const checked = getArrayParam(search, "gender").includes(g);
               return (
@@ -112,7 +112,7 @@ export default function Filters() {
                     checked={checked}
                     onChange={() => onToggle("gender" as GroupKey, g)}
                   />
-                  <label htmlFor={`gender-${g}`} className="text-body text-dark-900">
+                  <label htmlFor={`gender-${g}`} className="text-[15px]">
                     {g[0].toUpperCase() + g.slice(1)}
                   </label>
                 </li>
@@ -122,7 +122,7 @@ export default function Filters() {
         </Group>
 
         <Group title={`Size ${activeCounts.size ? `(${activeCounts.size})` : ""}`} k="size">
-          <ul className="grid grid-cols-5 gap-2">
+          <ul className="grid grid-cols-3 gap-2">
             {SIZES.map((s) => {
               const checked = getArrayParam(search, "size").includes(s);
               return (
@@ -134,7 +134,7 @@ export default function Filters() {
                       checked={checked}
                       onChange={() => onToggle("size", s)}
                     />
-                    <span className="text-body">{s}</span>
+                    <span className="text-[15px]">{s}</span>
                   </label>
                 </li>
               );
@@ -155,7 +155,7 @@ export default function Filters() {
                     checked={checked}
                     onChange={() => onToggle("color", c)}
                   />
-                  <label htmlFor={`color-${c}`} className="text-body capitalize">
+                  <label htmlFor={`color-${c}`} className="text-[15px] capitalize">
                     {c}
                   </label>
                 </li>
@@ -165,7 +165,7 @@ export default function Filters() {
         </Group>
 
         <Group title={`Price ${activeCounts.price ? `(${activeCounts.price})` : ""}`} k="price">
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             {PRICES.map((p) => {
               const checked = getArrayParam(search, "price").includes(p.id);
               return (
@@ -177,7 +177,7 @@ export default function Filters() {
                     checked={checked}
                     onChange={() => onToggle("price", p.id)}
                   />
-                  <label htmlFor={`price-${p.id}`} className="text-body">
+                  <label htmlFor={`price-${p.id}`} className="text-[15px]">
                     {p.label}
                   </label>
                 </li>
@@ -188,13 +188,16 @@ export default function Filters() {
       </aside>
 
       {open && (
-        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">
+        <div
+          className="fixed inset-0 z-50 md:hidden"
+          role="dialog"
+          aria-modal="true">
           <div
             className="absolute inset-0 bg-black/40"
             aria-hidden="true"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-80 max-w-[80%] overflow-auto bg-light-100 p-4 shadow-xl">
+          <div className="absolute inset-y-0 right-0 w-80 max-w-[80%] overflow-auto bg-sidebar p-4 shadow-xl">
             <div className="mb-2 flex items-center justify-between">
               <h3 className="text-body-medium">Filters</h3>
               <button className="text-caption text-dark-700 underline" onClick={clearAll}>
