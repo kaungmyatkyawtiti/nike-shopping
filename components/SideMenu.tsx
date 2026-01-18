@@ -1,10 +1,8 @@
 import { cn } from "@/lib/utils";
-import Logo from "./Logo";
-import { Search, X } from "lucide-react";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
-import { ModeToggle } from "./ModeToggle";
 import { NAV_LINKS } from "./Navbar";
 
 interface SideMenuProps {

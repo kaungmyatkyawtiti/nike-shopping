@@ -16,3 +16,6 @@ export interface Product {
   badge?: { label: string; tone?: BadgeTone };
 };
 
+export type GroupKey = "gender" | "size" | "color" | "price";
+
+export type SearchParams = Record<string, string | string[] | undefined>;

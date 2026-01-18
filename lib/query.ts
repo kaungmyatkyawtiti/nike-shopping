@@ -1,23 +1,63 @@
+import { SearchParams } from "@/types";
 import qs from "query-string";
 
-type QueryValue = string | number | boolean | null | undefined | string[] | number[] | boolean[];
+type QueryValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | string[]
+  | number[]
+  | boolean[];
+
 type QueryObject = Record<string, QueryValue>;
 
-export function parseQuery(search: string): QueryObject {
-  const parsed = qs.parse(search, { arrayFormat: "bracket" });
+export function parseQuery(search: string) {
+  const parsed = qs.parse(
+    search,
+    { arrayFormat: "bracket" }
+  );
   return parsed as QueryObject;
 }
 
-export function stringifyQuery(query: QueryObject): string {
-  return qs.stringify(query, { skipNull: true, skipEmptyString: true, arrayFormat: "bracket" });
+export function stringifyQuery(query: QueryObject) {
+  return qs.stringify(
+    query,
+    {
+      skipNull: true,
+      skipEmptyString: true,
+      arrayFormat: "bracket"
+    }
+  );
 }
 
-export function withUpdatedParams(pathname: string, currentSearch: string, updates: QueryObject): string {
+function normalizeToStringArray(value: QueryValue) {
+  if (Array.isArray(value)) {
+    return value.map(String);
+  }
+
+  if (value === undefined || value === null) {
+    return [];
+  }
+
+  return [String(value)];
+}
+
+export function withUpdatedParams(
+  pathname: string,
+  currentSearch: string,
+  updates: QueryObject
+) {
   const current = parseQuery(currentSearch);
   const next: QueryObject = { ...current };
 
   Object.entries(updates).forEach(([key, value]) => {
-    if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
+    if (
+      value === undefined ||
+      value === null ||
+      (Array.isArray(value) && value.length === 0)
+    ) {
       delete next[key];
     } else {
       next[key] = value as QueryValue;
@@ -33,16 +73,21 @@ export function toggleArrayParam(
   currentSearch: string,
   key: string,
   value: string
-): string {
+) {
   const current = parseQuery(currentSearch);
-  const arr = new Set<string>(Array.isArray(current[key]) ? (current[key] as string[]) : current[key] ? [String(current[key])] : []);
-  if (arr.has(value)) {
-    arr.delete(value);
+  const rawValue = current[key];
+  const values = normalizeToStringArray(rawValue);
+  const set = new Set(values);
+
+  if (set.has(value)) {
+    set.delete(value);
   } else {
-    arr.add(value);
+    set.add(value);
   }
-  const nextValues = Array.from(arr);
-  const updates: QueryObject = { [key]: nextValues.length ? nextValues : undefined };
+  const nextValues = [...set];
+  const updates: QueryObject = {
+    [key]: nextValues.length ? nextValues : undefined
+  };
   return withUpdatedParams(pathname, currentSearch, updates);
 }
 
@@ -51,28 +96,44 @@ export function setParam(
   currentSearch: string,
   key: string,
   value: string | number | null | undefined
-): string {
-  return withUpdatedParams(pathname, currentSearch, { [key]: value === null || value === undefined ? undefined : String(value) });
+) {
+  return withUpdatedParams(
+    pathname,
+    currentSearch,
+    {
+      [key]: value === null || value === undefined ? undefined : String(value)
+    }
+  );
 }
 
-export function removeParams(pathname: string, currentSearch: string, keys: string[]): string {
+export function removeParams(
+  pathname: string,
+  currentSearch: string,
+  keys: string[]
+) {
   const current = parseQuery(currentSearch);
   keys.forEach((k) => delete current[k]);
   const search = stringifyQuery(current);
   return search ? `${pathname}?${search}` : pathname;
 }
 
-export function getArrayParam(search: string, key: string): string[] {
+export function getArrayParam(
+  search: string,
+  key: string
+) {
   const q = parseQuery(search);
   const v = q[key];
-  if (Array.isArray(v)) return v.map(String);
-  if (v === undefined) return [];
-  return [String(v)];
+  return normalizeToStringArray(v);
 }
 
-export function getStringParam(search: string, key: string): string | undefined {
-  const q = parseQuery(search);
-  const v = q[key];
-  if (v === undefined) return undefined;
-  return Array.isArray(v) ? (v[0] ? String(v[0]) : undefined) : String(v);
-}
+// export function getStringParam(
+//   search: string,
+//   key: string
+// ) {
+//   const q = parseQuery(search);
+//   const v = q[key];
+//   if (v === undefined) return undefined;
+//   return Array.isArray(v)
+//     ? (v[0] ? String(v[0]) : undefined)
+//     : String(v);
+// }
